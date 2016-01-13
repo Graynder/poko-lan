@@ -13,4 +13,5 @@ home.get('/', function (req, res) {
 
 home.post('/', function (req, res) {
     console.log(req.body);
+
 });

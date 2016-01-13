@@ -38,3 +38,27 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.row{
+    background-color: #eee;
+}
+
+.cardOtherPlayer{
+    width: 20%;
+}
+
+.cardTable{
+    padding-right: 10px;
+}
+
+.cardPlayer{
+    padding-right: 10px;
+}
+
+#playerInfo{
+
+    margin-right:0;
+    margin-left:0;
+
+    padding-top: 10%;
+}
