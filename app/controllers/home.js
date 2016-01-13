@@ -1,15 +1,16 @@
 var express = require('express'),
-  router = express.Router(),
-  Article = require('../models/article');
+  home = express.Router();
 
 module.exports = function (app) {
-  app.use('/', router);
+  app.use('/', home);
 };
 
-router.get('/', function (req, res, next) {
-  var articles = [new Article(), new Article()];
+home.get('/', function (req, res) {
     res.render('index', {
-      title: 'Generator-Express MVC',
-      articles: articles
+      title: 'Poko-Lan',
     });
+});
+
+home.post('/', function (req, res) {
+    console.log(req.body);
 });

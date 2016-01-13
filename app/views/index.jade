@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+
+  .container
+      form(name='connection', action='/', method='post' ).form-signin
+        h2.form-signin-heading Bienvenue sur #{title}  Indiquer votre speudo
+
+        label(for='username' class='sr-only') Nom en jeu
+        input( type='text', id='username', class='form-control', placeholder='Nom' required autofocus)
+
+        button(class='btn btn-lg btn-primary btn-block', type='submit') Connection à une table
