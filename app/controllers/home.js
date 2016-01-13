@@ -1,6 +1,6 @@
 var express = require('express'),
   home = express.Router();
-  
+
 var Pile = require('../models/Pile');
 
 module.exports = function (app) {
