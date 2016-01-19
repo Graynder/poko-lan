@@ -1,32 +1,39 @@
 var express = require('express'),
-  home = express.Router();
+//creation du router home
+home = express.Router();
 
-var Pile = require('../models/Pile');
+var User = require('../models/User.js');
 
-module.exports = function (app) {
-  app.use('/', home);
-};
+home.player=[];
 
 home.get('/', function (req, res) {
     res.render('index', {
-      title: 'Poko-Lan',
+        title: 'Poko-Lan',
     });
 });
 
 home.post('/', function (req, res) {
-    console.log(req.body);
-	var pile = new Pile();
-	console.log("Pile vide");
-	console.log(pile.pileFixe);
-	console.log(pile.pile);
-	console.log("Initialise la pile");
-	pile.nouvellePile();
-	console.log(pile.pile);
-	console.log("Pioche les 3 premiers cartes");
-	console.log(pile.piocher());
-	console.log(pile.piocher());
-	console.log(pile.piocher());
-	res.render('index', {
-      title: 'Poko-Lan',
-    });
+    //test si le jouer s'est deja inscrit a la partie en cours
+    for (var i = 0; i < home.player.length; i++) {
+        if (home.player[i].user== req.body.username) {
+            res.render('index', {
+                title: 'Poko-Lan',
+                error:'Un joueur a déjà ce nom'
+            });
+        }
+    }
+    //si pas inscrit, go en game
+    if(!res.headersSent && home.player.length <5)
+    {
+        //ajout du new utilisateur
+        var user = new User(req.body.username,req.ip)
+        home.player.push(user);
+        //console.log(home.player);
+        req.app.locals.user = user;
+        res.redirect('/game');
+    }
 });
+
+module.exports = function (app) {
+    app.use('/', home);
+};
