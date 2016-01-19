@@ -22,7 +22,7 @@ home.post('/', function (req, res) {
 	console.log("Initialise la pile");
 	pile.nouvellePile();
 	console.log(pile.pile);
-	console.log("Pioche les 3 premiers cartes");
+	console.log("Pioche les 3 premières cartes");
 	console.log(pile.piocher());
 	console.log(pile.piocher());
 	console.log(pile.piocher());

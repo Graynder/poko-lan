@@ -4,9 +4,10 @@ block content
 
   .container
       form(name='connection', action='/', method='post' ).form-signin
-        h2.form-signin-heading Bienvenue sur #{title}  Indiquer votre speudo
+        h2.form-signin-heading Bienvenue sur #{title}
+        h3 Indiquez votre pseudo
 
         label(for='username' class='sr-only') Nom en jeu
         input(name='username', type='text', class='form-control', placeholder='Nom' required autofocus)
 
-        button(class='btn btn-lg btn-primary btn-block', type='submit') Connection à une table
+        button(class='btn btn-lg btn-primary btn-block', type='submit') Connexion à une table
