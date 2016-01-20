@@ -8,6 +8,9 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
 
+var os = require('os');
+var ifaces = os.networkInterfaces();
+
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
@@ -27,8 +30,31 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-  //active le trus proxy pour recuperer les ip
+  //active le trus proxy pour recuperer les ip et strocke l'ip du serveur
   app.enable('trust proxy');
+
+  Object.keys(ifaces).forEach(function (ifname) {
+      var alias = 0;
+
+      ifaces[ifname].forEach(function (iface) {
+          if ('IPv4' !== iface.family || iface.internal !== false) {
+              // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+              return;
+          }
+
+          if (alias >= 1) {
+              // this single interface has multiple ipv4 addresses
+              //console.log(ifname + ':' + alias, iface.address);
+              app.locals.ipLocal = {address:iface.address,alias:alias};
+          } else {
+              // this interface has only one ipv4 adress
+             // console.log(ifname, iface.address);
+              app.locals.ipLocal = {address:iface.address,alias:"ip"};
+          }
+          ++alias;
+      });
+  });
+
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
