@@ -9,5 +9,7 @@ block content
 
         label(for='username' class='sr-only') Nom en jeu
         input(name='username', type='text', class='form-control', placeholder='Nom' required autofocus)
+        if error
+            div(class="alert alert-danger" role="alert")   #{error}
 
         button(class='btn btn-lg btn-primary btn-block', type='submit') Connexion à une table
