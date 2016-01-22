@@ -143,7 +143,7 @@ function isFull (main)
 {
 	main = main.sort(triValeur);
 	var full = [];
-	var isFull = this.isBrelan(main);
+	var isFull = this.isPaire(main);
 	//Si on trouve un brelan
 	if (isFull.length > 0)
 	{
@@ -156,7 +156,7 @@ function isFull (main)
 		}
 
 		//On regarde si il y a une paire
-		isFull = this.isPaire(main);
+		isFull = this.isBrelan(main);
 		if (isFull.length > 0)
 		{
 			full = full.concat(isFull);
@@ -206,7 +206,7 @@ function isQuinteFlush (main)
 						if(straight[3].valeur+1 == straight[4].valeur)
 						{	
 							//On verifie la couleur
-							if (this.verificationCouleur(straight)){
+							if (verificationCouleur(straight)){
 								return straight;
 							}
 						}
@@ -235,8 +235,8 @@ function isRoyalFlush (main)
 						if(straight[3].valeur+1 == straight[4].valeur)
 						{	
 							//On verifie la couleur
-							if (this.verificationCouleur(straight))
-								if (this.verificationRoyale(straight)){
+							if (verificationCouleur(straight))
+								if (verificationRoyale(straight)){
 									return straight;
 								}
 							}
