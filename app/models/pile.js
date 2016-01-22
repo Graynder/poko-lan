@@ -48,7 +48,7 @@ function Carte(nom)
         case '7' : this.valeur = 7;  break;
         case '8' : this.valeur = 8;  break;
         case '9' : this.valeur = 9;  break;
-        case '1' : this.valeur = 10; break;
+        case '10' : this.valeur = 10; break;
         case 'J' : this.valeur = 11; break;
         case 'Q' : this.valeur = 12; break;
         case 'K' : this.valeur = 13; break;
@@ -56,4 +56,4 @@ function Carte(nom)
 	}
 }
 
-module.exports = Pile;
+module.exports = {Pile,Carte};
