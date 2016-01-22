@@ -16,7 +16,7 @@ function isPaire (main)
 {
 	main = main.sort(triValeur);
 	var paire = [{valeur:0},{valeur:0}];
-	for each (carte in main)
+	for (carte of main)
 	{
 		paire.shift();
 		paire.push(carte);
@@ -37,7 +37,7 @@ function isDeuxPaires (main)
 	{
 		//On l'enregistre et l'enleve de la main
 		paire = isPaire;
-		for each(carte in paire)
+		for(carte of paire)
 		{
 			var index = main.indexOf(carte);
 			main = main.splice(index,1);
@@ -61,7 +61,7 @@ function isBrelan (main)
 {
 	main = main.sort(triValeur);
 	var brelan = [{valeur:0},{valeur:0},{valeur:0}];
-	for each (carte in main)
+	for (carte of main)
 	{
 		brelan.shift();
 		brelan.push(carte);
@@ -78,7 +78,7 @@ function isCouleur (main)
 	var couleurs = [[],[],[],[]];
 	cartes = cartes.concat(table)
 	// On trie les cartes par couleurs
-	for each (carte in cartes)
+	for (carte of cartes)
 	{
 		switch(carte.couleur)
 		{
@@ -97,7 +97,7 @@ function isCouleur (main)
 		}
 	}
 	// On verifie le nombre de cartes par couleurs
-	for each (val in couleurs)
+	for (val of couleurs)
 	{
 		if(val.length > 4)
 			return val;
@@ -110,7 +110,7 @@ function isQuinte (main)
 {
 	main = main.sort(triValeur);
 	var straight = [{valeur:0},{valeur:0},{valeur:0},{valeur:0},{valeur:0}];
-	for each (carte in main)
+	for (carte of main)
 	{
 		if (carte.valeur != straight[4].valeur)
 		{
@@ -141,7 +141,7 @@ function isFull (main)
 	{
 		//On l'enregistre et l'enleve de la main
 		full = isFull;
-		for each(carte in full)
+		for(carte of full)
 		{
 			var index = main.indexOf(carte);
 			main = main.splice(index,1);
@@ -166,7 +166,7 @@ function isCarre (main)
 {
 	main = main.sort(triValeur);
 	var carre = [{valeur:0},{valeur:0},{valeur:0},{valeur:0}];
-	for each (carte in main)
+	for (carte of main)
 	{
 		carre.shift();
 		carre.push(carte);
@@ -184,9 +184,9 @@ function isCarre (main)
 //Retourne un tableau qui contient une suite de couleur si elle existe dans la main
 function isQuinteFlush (main)
 {
-	main = main.sort(triCouleurValeur);
+	main = main.sort(triCouleur);
 	var straight = [{valeur:0},{valeur:0},{valeur:0},{valeur:0},{valeur:0}];
-	for each (carte in main)
+	for (carte of main)
 	{
 		if (carte.valeur != straight[4].valeur)
 		{
@@ -213,9 +213,9 @@ function isQuinteFlush (main)
 //Retourne un tableau qui contient une suite royale si elle existe dans la main
 function isRoyalFlush (main)
 {
-	main = main.sort(triCouleurValeur);
+	main = main.sort(triCouleur);
 	var straight = [{valeur:0},{valeur:0},{valeur:0},{valeur:0},{valeur:0}];
-	for each (carte in main)
+	for (carte of main)
 	{
 		if (carte.valeur != straight[4].valeur)
 		{
@@ -243,7 +243,7 @@ function isRoyalFlush (main)
 //Retourne si un lot de carte est de la meme couleur
 function verificationCouleur (cartes) {
 	var couleur = cartes[0].couleur;
-	for each (carte in cartes)
+	for (carte of cartes)
 	{
 		if(couleur != carte.couleur){
 			return false;
@@ -274,10 +274,14 @@ function triValeur(a,b)
 		return -1;
 	if(a.valeur > b.valeur)
 		return 1;
+	if(a.couleur < b.couleur)
+		return -1;
+	if(a.couleur > b.couleur)
+		return 1;
 	return 0;
 }
 
-function triCouleurValeur(a,b)
+function triCouleur(a,b)
 {
 	if(a.couleur < b.couleur)
 		return -1;
@@ -315,3 +319,5 @@ function ScoreMain()
 	}
 }
 
+
+module.exports = {Combinaison,isPaire,isDeuxPaires,isFull,isBrelan,isCarre,isQuinte,isCouleur,isRoyalFlush,isQuinteFlush};
