@@ -40,7 +40,7 @@ function isDeuxPaires (main)
 		for(carte of paire)
 		{
 			var index = main.indexOf(carte);
-			main = main.splice(index,1);
+			main.splice(index,1);
 		}
 		//On regarde si il y a une deuxieme paire
 		isPaire = this.isPaire(main);
@@ -66,11 +66,15 @@ function isBrelan (main)
 		brelan.shift();
 		brelan.push(carte);
 		if(brelan[0].valeur == brelan[1].valeur)
-			if(brelan[1].valaur == brelan[2].valeur)
+		{
+			if(brelan[1].valeur == brelan[2].valeur)
+			{
 				return brelan;
+			}
 		}
-		return [];
 	}
+	return [];
+}
 
 //Retourne un tableau qui contient une couleur si elle existe dans la main
 function isCouleur (main)
@@ -117,9 +121,9 @@ function isQuinte (main)
 			straight.shift();
 			straight.push(carte);
 			if(straight[0].valeur+1 == straight[1].valeur){
-				if(straight[1].valaur+1 == straight[2].valeur){
-					if(straight[2].valaur+1 == straight[3].valeur){
-						if(straight[3].valaur+1 == straight[4].valeur){
+				if(straight[1].valeur+1 == straight[2].valeur){
+					if(straight[2].valeur+1 == straight[3].valeur){
+						if(straight[3].valeur+1 == straight[4].valeur){
 							return straight;
 						}
 					}
@@ -144,7 +148,7 @@ function isFull (main)
 		for(carte of full)
 		{
 			var index = main.indexOf(carte);
-			main = main.splice(index,1);
+			main.splice(index,1);
 		}
 
 		//On regarde si il y a une paire
@@ -171,8 +175,8 @@ function isCarre (main)
 		carre.shift();
 		carre.push(carte);
 		if(carre[0].valeur == carre[1].valeur){
-			if(carre[1].valaur == carre[2].valeur){
-				if(carre[2].valaur == carre[3].valeur){
+			if(carre[1].valeur == carre[2].valeur){
+				if(carre[2].valeur == carre[3].valeur){
 					return carre;
 				}
 			}
@@ -193,9 +197,9 @@ function isQuinteFlush (main)
 			straight.shift();
 			straight.push(carte);
 			if(straight[0].valeur+1 == straight[1].valeur){
-				if(straight[1].valaur+1 == straight[2].valeur){
-					if(straight[2].valaur+1 == straight[3].valeur){
-						if(straight[3].valaur+1 == straight[4].valeur)
+				if(straight[1].valeur+1 == straight[2].valeur){
+					if(straight[2].valeur+1 == straight[3].valeur){
+						if(straight[3].valeur+1 == straight[4].valeur)
 						{	
 							//On verifie la couleur
 							if (this.verificationCouleur(straight)){
@@ -222,9 +226,9 @@ function isRoyalFlush (main)
 			straight.shift();
 			straight.push(carte);
 			if(straight[0].valeur+1 == straight[1].valeur){
-				if(straight[1].valaur+1 == straight[2].valeur){
-					if(straight[2].valaur+1 == straight[3].valeur){
-						if(straight[3].valaur+1 == straight[4].valeur)
+				if(straight[1].valeur+1 == straight[2].valeur){
+					if(straight[2].valeur+1 == straight[3].valeur){
+						if(straight[3].valeur+1 == straight[4].valeur)
 						{	
 							//On verifie la couleur
 							if (this.verificationCouleur(straight))
