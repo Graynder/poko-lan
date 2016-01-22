@@ -80,23 +80,23 @@ function isBrelan (main)
 function isCouleur (main)
 {
 	var couleurs = [[],[],[],[]];
-	cartes = cartes.concat(table)
+	main = main.sort(triValeur);
 	// On trie les cartes par couleurs
-	for (carte of cartes)
+	for (carte of main)
 	{
 		switch(carte.couleur)
 		{
 			case "Co" :
-			couleur[0].push(carte);
+			couleurs[0].push(carte);
 			break;
 			case "Ca" :
-			couleur[1].push(carte);
+			couleurs[1].push(carte);
 			break;
 			case "P" :
-			couleur[2].push(carte);
+			couleurs[2].push(carte);
 			break;
 			case "T" :
-			couleur[3].push(carte);
+			couleurs[3].push(carte);
 			break;
 		}
 	}
@@ -104,7 +104,11 @@ function isCouleur (main)
 	for (val of couleurs)
 	{
 		if(val.length > 4)
+		{
+			//on recupere les 5 dernieres cases du tableau
+			val = val.splice(val.length-5,val.length);
 			return val;
+		}
 	}
 	return [];
 }
