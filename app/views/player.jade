@@ -1,14 +1,15 @@
+
 block player
     .col-lg-6.col-md-6.col-sm-6.col-xs-6
-        label(for='') Nb de jetons restant: 999
+        label(for='') Nb de jetons restant: #{user.pot} €
         <br>
-        button(type='button', name='button') Fold
-        button(type='button', name='button') Check
-        button(type='button', name='button') Call
-        button(type='button', name='button') Rise  5435
+        button(type='button', name='button', id="Fold") Fold
+        button(type='button', name='button', id="Check") Check
+        button(type='button', name='button', id="Call") Call
+        button(type='button', name='button', id="Rise") Rise  
         
     .col-lg-6.col-md-6.col-sm-6.col-xs-6
-        img(src='/img/carte/A_P.bmp', alt='' class="cardPlayer")
-        img(src='/img/carte/A_Co.bmp', alt='' class="cardPlayer")
+        img(src='/img/carte/carte_dos.bmp', alt='' class="cardPlayer")
+        img(src='/img/carte/carte_dos.bmp', alt='' class="cardPlayer")
 
     

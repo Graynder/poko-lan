@@ -1,39 +1,44 @@
 var express = require('express'),
-    game = express.Router();
+game = express.Router();
 
-var User = require('../models/User.js');
-var config = require('../../config/config.js')
+game.get('/', function (req, res, next) {
 
-var io;
-game.player = [];
+    var player = {};
+    var otherPlayers = [];
 
+    console.log(req.app.locals.users);
 
-game.get('/', function (req, res) {
-    //console.log(req.app.locals);
-    io = require('socket.io').listen(req.app.listen(config.port));
-    //on enregistre le nouveau joueur dans le controller
-    game.player.push(req.app.locals.user);
-   //on retourne la vue
-   //var url = 'http://' + req.app.locals.ipLocal.address + "/socket.io/socket.io.js";
-   //console.log(url);
+    if (req.app.locals.users == undefined) {
+        res.redirect('/');
+    }else {
+        req.app.locals.users.forEach(function(user){
+            //console.log(user);
+            if (req.ip === user.ip) {
+                player = user;
+            } else {
+                otherPlayers.push(user);
+            }
+        });
 
-
-
-    res.render('game', {
-      title: 'Poko-Lan',
-      //scriptSocket:url
-    });
+        if (player == {}) {
+            console.log("joueur non trouvé");
+            res.redirect('/');
+        }else {
+            console.log(otherPlayers);
+            res.render('game', {
+                title: 'Poko-Lan',
+                ipServ: req.app.locals.ipLocal.address,
+                user: player,
+                otherUsers: otherPlayers
+            });
+            next();
+        }
+    }
+},function(req, res, next){
+    console.log("Connection des Sockets");
 });
-/*
-io.sockets.on('connection', function (socket) {
-  socket.emit('message', { message: 'welcome to the chat' });
-  socket.on('send', function (data) {
-    io.sockets.emit('message', data);
-  });
-});*/
-
 
 
 module.exports = function (app) {
-  app.use('/game', game);
+    app.use('/game', game);
 };

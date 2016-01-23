@@ -2,6 +2,11 @@ extends layout
 
 block content
     .row
+        .col-lg-6.col-md-6.col-sm-6.col-xs-6
+            label Adresse du serveur : 
+            strong#ipServ #{ipServ}
+         
+    .row
       include otherPlayer
       include table
 
@@ -12,5 +17,3 @@ block js
     script(src='/components/jquery/dist/jquery.min.js')
     script(src='js/socket.io-client/socket.io.js')
     script(src='js/game.js')
-
-
