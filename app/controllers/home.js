@@ -12,32 +12,56 @@ home.get('/', function (req, res) {
     });
 });
 
+home.get('/reset', function (req, res) {
+// nouvelle table de joueurs
+    home.player = [];
+    req.app.locals.users = []; // memoire serveur
+    res.redirect('/');
+});
+
 home.post('/', function (req, res) {
     //test si le jouer s'est deja inscrit a la partie en cours
-    for (var i = 0; i < home.player.length; i++) {
-        if (home.player[i].name == req.body.username) {
-            res.render('index', {
-                title: 'Poko-Lan',
-                error:'Un joueur a déjà ce nom'
-            });
+
+    //console.log(" * * * ** new ** Name [" + req.body.username+"] - IP ["+req.ip+"]")
+
+        for (var i = 0; i < home.player.length; i++) {
+            if (home.player[i].ip == req.ip){
+            console.log("########## log ip");
+                res.render('index', {
+                    title: 'Poko-Lan',
+                    error:'Un joueur utilise déjà cette ip'
+                });
+            }
+            //console.log(" * * * * Home ** Name [" + home.player[i].name+"] - IP ["+req.ip+"]")
+            else if (!res.headersSent && home.player[i].name == req.body.username){
+            console.log("########## log pseudo");
+                        res.render('index', {
+                            title: 'Poko-Lan',
+                            error:'Un joueur utilise déjà ce pseudo'
+                        });
+            }
         }
-    }
-    //si pas inscrit, go en game et table non pleine
-    if(!res.headersSent && home.player.length < 5)
+
+    //si pas inscrit et table non pleine, go en game
+    if( !res.headersSent)
     {
-        //ajout du new utilisateur
-        var user = new User(req.body.username,req.ip)
-        home.player.push(user);
-        //console.log(home.player);
-        req.app.locals.users = home.player;
-        res.redirect('/game');
-    }
-    else {
-        res.render('index', {
-            title: 'Poko-Lan',
-            error:'Table pleine'
-        });
-    }
+      if(home.player.length < 5){
+       //ajout du new utilisateur
+              var user = new User(req.body.username,req.ip)
+              home.player.push(user);
+              //console.log(home.player);
+              req.app.locals.users = home.player;
+              res.redirect('/game');}
+
+              else{
+              console.log("########## log plein");
+                      res.render('index', {
+                          title: 'Poko-Lan',
+                          error:'Table pleine'
+                      });
+              }
+     }
+
 });
 
 module.exports = function (app) {

@@ -6,25 +6,25 @@ game.get('/', function (req, res, next) {
     var player = {};
     var otherPlayers = [];
 
-    console.log(req.app.locals.users);
-
     if (req.app.locals.users == undefined) {
         res.redirect('/');
     }else {
         req.app.locals.users.forEach(function(user){
-            //console.log(user);
             if (req.ip === user.ip) {
                 player = user;
             } else {
                 otherPlayers.push(user);
             }
         });
+      //console.log("##### player ### ");
+      //console.log(player);
+      //console.log(player.ip);
 
-        if (player == {}) {
-            console.log("joueur non trouvé");
+        if (!Object.keys(player).length) {
+            console.log("joueur non trouvé ["+player+"]");
             res.redirect('/');
         }else {
-            console.log(otherPlayers);
+           //console.log(otherPlayers);
             res.render('game', {
                 title: 'Poko-Lan',
                 ipServ: req.app.locals.ipLocal.address,
@@ -34,11 +34,19 @@ game.get('/', function (req, res, next) {
             next();
         }
     }
-},function(req, res, next){
-    console.log("Connection des Sockets");
+},function(req, res){
+    console.log("Connexion des Sockets");
+});
+
+game.get('/reset', function (req, res) {
+    player = {}; // moi
+    otherPlayers = []; // tous sauf moi
+    req.app.locals.users = []; // memoire serveur
+    res.redirect('/');
 });
 
 
 module.exports = function (app) {
     app.use('/game', game);
 };
+
