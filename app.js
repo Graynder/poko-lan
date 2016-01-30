@@ -12,4 +12,4 @@ var io = require('socket.io') (app.listen(config.port, function () {
   console.log('Express server listening on port ' + config.port);
 }));
 
-require('./config/socket')(io,app);
+require('./app/controllers/socket')(io,app);
