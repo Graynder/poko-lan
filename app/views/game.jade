@@ -1,5 +1,8 @@
 extends layout
 
+block css-autre
+    link(rel='stylesheet', href='components/jquery-ui/themes/base/jquery-ui.min.css' )
+
 block content
     .row
         .col-lg-6.col-md-6.col-sm-6.col-xs-6
@@ -13,7 +16,8 @@ block content
     .row#playerInfo
         include player
 
-block js
-    script(src='/components/jquery/dist/jquery.min.js')
+block js-autre
+    script(src='components/jquery/dist/jquery.min.js')
+    script(src='components/jquery-ui/jquery-ui.min.js')
     script(src='js/socket.io-client/socket.io.js')
     script(src='js/game.js')
