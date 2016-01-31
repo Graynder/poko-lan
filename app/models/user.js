@@ -9,6 +9,7 @@ function User (username, ip){
     this.position = "";
     this.etat = false ; // true or false
     this.sessionSocket = {}; // utilisation non defini
+    this.main = []; // Cartes de l'utilisateur 
 }
 
 module.exports = User;

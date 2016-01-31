@@ -7,8 +7,159 @@ function Combinaison(table,joueurs){
 
 	this.calculeResultat()
 	{
-		
+		var resultats = [];
+		for (var joueur of joueurs)
+		{
+			var main = joueur.main.concat(table);
+			var score = calculeCombinaison(main);
+			score.joueur = joueur;
+			score.Kicker = calculeKicker(score,main);
+			resultats.push(score);
+		}
+		resultats.sort(triMain);
+		return resultats;
 	}
+}
+
+function ScoreMain()
+{
+	this.valeur = 0;
+	this.nom = "High card";
+	this.combinaison = [];
+	this.kicker = [];
+	this.joueur = undefined;
+	this.egualiter = false; // A vrai si une égaliter et trouvé avec un autre joueur
+
+	this.setValeur = function(valeur) {
+		this.valeur = valeur;
+		switch (valeur)
+		{
+			case 0 : this.nom = "Plus Haute";  break;
+	        case 1 : this.nom = "Une paire";  break;
+	        case 2 : this.nom = "Deux paire";  break;
+	        case 3 : this.nom = "Brelan";  break;
+	        case 4 : this.nom = "Quinte";  break;
+	        case 5 : this.nom = "Couleur";  break;
+	        case 6 : this.nom = "Full";  break;
+	        case 7 : this.nom = "Carré";  break;
+	        case 8 : this.nom = "Quinte Flush";  break;
+	        case 9 : this.nom = "Quinte Flush Royale";  break;
+		}
+	}
+}
+
+function calculeCombinaison(main)
+{
+	var score = new ScoreMain();
+
+	var combinaison = isRoyalFlush(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(9);
+		return score;
+	}
+
+	combinaison = isQuinteFlush(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(8);
+		return score;
+	}
+
+	combinaison = isCarre(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(7);
+		return score;
+	}
+
+	combinaison = isFull(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(6);
+		return score;
+	}
+
+	combinaison = isCouleur(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(5);
+		return score;
+	}
+
+	combinaison = isQuinte(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(4);
+		return score;
+	}
+
+	combinaison = isBrelan(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(3);
+		return score;
+	}
+
+	combinaison = isDeuxPaires(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(2);
+		return score;
+	}
+
+	combinaison = isPaire(main);
+	if(combinaison.length > 0)
+	{
+		score.combinaison = combinaison;
+		score.setValeur(1);
+		return score;
+	}
+
+	score.combinaison = main.sort(triValeur)[0];
+	return score;
+}
+
+function calculeKicker(score,main)
+{
+	for(carte of score.combinaison) //on retire la combinaison de la main
+	{
+		var index = main.indexOf(carte);
+		main.splice(index,1);
+	}
+	main = main.sort(triValeur);
+
+	var kicker = [];
+	for (var i = 0; i+score.combinaison.length < 5; i++) {
+		kicker.push(main[i]);
+	}
+	return kicker
+}
+
+function triMain (a,b) {
+	if(a.valeur < b.valeur)
+		return -1;
+	if(a.valeur > b.valeur)
+		return 1;
+
+	for (var i = a.kicker.length - 1; i >= 0; i--) {
+		if (a.kicker[i].valeur < b.kicker[i].valeur)
+			return -1;
+		if (a.kicker[i].valeur > b.kicker[i].valeur)
+			return 1;
+	}
+
+	a.egualiter = true;
+	b.egualiter = true;
+	return 0;
 }
 
 //Retourne un tableau qui contient une paire si elle existe dans la main
@@ -301,31 +452,5 @@ function triCouleur(a,b)
 		return 1;
 	return 0;
 }
-
-
-function ScoreMain()
-{
-	this.valeur = 0;
-	this.nom = "High card";
-	this.kicker = [];
-
-	this.setValeur = function(valeur) {
-		this.valeur = valeur;
-		switch (valeur)
-		{
-			case 0 : this.nom = "Plus Haute";  break;
-	        case 1 : this.nom = "Une paire";  break;
-	        case 2 : this.nom = "Deux paire";  break;
-	        case 3 : this.nom = "Brelan";  break;
-	        case 4 : this.nom = "Quinte";  break;
-	        case 5 : this.nom = "Couleur";  break;
-	        case 6 : this.nom = "Full";  break;
-	        case 7 : this.nom = "Carré";  break;
-	        case 8 : this.nom = "Quinte Flush";  break;
-	        case 9 : this.nom = "Quinte Flush Royale";  break;
-		}
-	}
-}
-
 
 module.exports = {Combinaison,isPaire,isDeuxPaires,isFull,isBrelan,isCarre,isQuinte,isCouleur,isRoyalFlush,isQuinteFlush};
