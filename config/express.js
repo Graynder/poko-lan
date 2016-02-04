@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 
 var os = require('os');
 var ifaces = os.networkInterfaces();
+var Game = require('../app/models/Game');
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -31,6 +32,8 @@ module.exports = function(app, config) {
   app.use(methodOverride());
 
   //active le trus proxy pour recuperer les ip et strocke l'ip du serveur
+
+  app.locals.game = new Game();
   app.enable('trust proxy');
 
   Object.keys(ifaces).forEach(function (ifname) {
@@ -45,11 +48,11 @@ module.exports = function(app, config) {
           if (alias >= 1) {
               // this single interface has multiple ipv4 addresses
               //console.log(ifname + ':' + alias, iface.address);
-              app.locals.ipLocal = {address:iface.address,alias:alias};
+              app.locals.game.ipServ = {address:iface.address,alias:alias};
           } else {
               // this interface has only one ipv4 adress
              // console.log(ifname, iface.address);
-              app.locals.ipLocal = {address:iface.address,alias:"ip"};
+              app.locals.game.ipServ = {address:iface.address,alias:"ip"};
           }
           ++alias;
       });
