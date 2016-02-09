@@ -5,7 +5,7 @@ function Combinaison(table,joueurs){
 	this.table = table;
 	this.joueurs = joueurs;
 
-	this.calculeResultat()
+	this.calculeResultats = function()
 	{
 		var resultats = [];
 		for (var joueur of joueurs)
@@ -13,7 +13,7 @@ function Combinaison(table,joueurs){
 			var main = joueur.main.concat(table);
 			var score = calculeCombinaison(main);
 			score.joueur = joueur;
-			score.Kicker = calculeKicker(score,main);
+			calculeKicker(score,main);
 			resultats.push(score);
 		}
 		resultats.sort(triMain);
@@ -52,7 +52,7 @@ function calculeCombinaison(main)
 {
 	var score = new ScoreMain();
 
-	var combinaison = isRoyalFlush(main);
+	var combinaison = isRoyalFlush(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -60,7 +60,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isQuinteFlush(main);
+	combinaison = isQuinteFlush(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -68,7 +68,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isCarre(main);
+	combinaison = isCarre(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -76,7 +76,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isFull(main);
+	combinaison = isFull(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -84,7 +84,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isCouleur(main);
+	combinaison = isCouleur(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -92,7 +92,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isQuinte(main);
+	combinaison = isQuinte(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -100,7 +100,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isBrelan(main);
+	combinaison = isBrelan(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -108,7 +108,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isDeuxPaires(main);
+	combinaison = isDeuxPaires(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -116,7 +116,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	combinaison = isPaire(main);
+	combinaison = isPaire(main.slice());
 	if(combinaison.length > 0)
 	{
 		score.combinaison = combinaison;
@@ -124,7 +124,7 @@ function calculeCombinaison(main)
 		return score;
 	}
 
-	score.combinaison = main.sort(triValeur)[0];
+	score.combinaison.push(main.sort(triValeur)[main.length-1]);
 	return score;
 }
 
@@ -135,26 +135,26 @@ function calculeKicker(score,main)
 		var index = main.indexOf(carte);
 		main.splice(index,1);
 	}
-	main = main.sort(triValeur);
+	main = main.sort(triInverseValeur);
 
 	var kicker = [];
 	for (var i = 0; i+score.combinaison.length < 5; i++) {
 		kicker.push(main[i]);
 	}
-	return kicker
+	score.kicker = kicker;
 }
 
 function triMain (a,b) {
 	if(a.valeur < b.valeur)
-		return -1;
-	if(a.valeur > b.valeur)
 		return 1;
+	if(a.valeur > b.valeur)
+		return -1;
 
 	for (var i = a.kicker.length - 1; i >= 0; i--) {
 		if (a.kicker[i].valeur < b.kicker[i].valeur)
-			return -1;
-		if (a.kicker[i].valeur > b.kicker[i].valeur)
 			return 1;
+		if (a.kicker[i].valeur > b.kicker[i].valeur)
+			return -1;
 	}
 
 	a.egualiter = true;
@@ -182,22 +182,22 @@ function isDeuxPaires (main)
 {
 	main = main.sort(triValeur);
 	var paire = [];
-	var isPaire = this.isPaire(main);
+	var rIsPaire = isPaire(main);
 	//Si on trouve une paire
-	if (isPaire.length > 0)
+	if (rIsPaire.length > 0)
 	{
 		//On l'enregistre et l'enleve de la main
-		paire = isPaire;
+		paire = rIsPaire;
 		for(carte of paire)
 		{
 			var index = main.indexOf(carte);
 			main.splice(index,1);
 		}
 		//On regarde si il y a une deuxieme paire
-		isPaire = this.isPaire(main);
-		if (isPaire.length > 0)
+		rIsPaire = isPaire(main);
+		if (rIsPaire.length > 0)
 		{
-			paire = paire.concat(isPaire);
+			paire = paire.concat(rIsPaire);
 			return paire;
 		}
 		else
@@ -294,12 +294,12 @@ function isFull (main)
 {
 	main = main.sort(triValeur);
 	var full = [];
-	var isFull = this.isPaire(main);
+	var rIsFull = isPaire(main);
 	//Si on trouve un brelan
-	if (isFull.length > 0)
+	if (rIsFull.length > 0)
 	{
 		//On l'enregistre et l'enleve de la main
-		full = isFull;
+		full = rIsFull;
 		for(carte of full)
 		{
 			var index = main.indexOf(carte);
@@ -307,10 +307,10 @@ function isFull (main)
 		}
 
 		//On regarde si il y a une paire
-		isFull = this.isBrelan(main);
-		if (isFull.length > 0)
+		rIsFull = isBrelan(main);
+		if (rIsFull.length > 0)
 		{
-			full = full.concat(isFull);
+			full = full.concat(rIsFull);
 			return full;
 		}
 		else
@@ -433,6 +433,19 @@ function triValeur(a,b)
 		return -1;
 	if(a.valeur > b.valeur)
 		return 1;
+	if(a.couleur < b.couleur)
+		return -1;
+	if(a.couleur > b.couleur)
+		return 1;
+	return 0;
+}
+
+function triInverseValeur(a,b)
+{
+	if(a.valeur < b.valeur)
+		return 1;
+	if(a.valeur > b.valeur)
+		return -1;
 	if(a.couleur < b.couleur)
 		return -1;
 	if(a.couleur > b.couleur)
