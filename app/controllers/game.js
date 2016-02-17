@@ -25,11 +25,13 @@ game.get('/', function (req, res, next) {
             res.redirect('/');
         }else {
            //console.log(otherPlayers);
+            req.app.locals.game.userOnConnect = player;
             res.render('game', {
                 title: 'Poko-Lan',
                 ipServ: req.app.locals.game.ipServ.address,
                 user: player,
                 otherUsers: otherPlayers
+
             });
             next();
         }

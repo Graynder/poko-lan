@@ -6,6 +6,7 @@ function Game (){
     this.potManche = 0;
     this.mise = 0;
     this.users = [];
+    this.userOnConnect = null;
 }
 
 module.exports = Game;
