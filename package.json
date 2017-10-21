@@ -1,0 +1,23 @@
+{
+  "name": "poko-lan",
+  "version": "1.0.0-alpha",
+  "description": "Jeux de poker en lan - Projet Web EI5 ISTIA",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Graynder/poko-lan.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Graynder/poko-lan/issues"
+  },
+  "homepage": "https://github.com/Graynder/poko-lan#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "jade": "^1.11.0"
+  }
+}
