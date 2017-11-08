@@ -10,5 +10,5 @@ app.get('/',function(req,res){
 });
 
 app.listen(config.PORT,config.HOST,function(){
-    console.log('connnect on ' +config.HOST + ':' + config.PORT );
+    console.log('connnect on ' + config.HOST + ':' + config.PORT);
 });
