@@ -1,6 +1,6 @@
 'use strict';
 
-var config= {
+let config = {
     HOST : '0.0.0.0',
     PORT : 3000
 };
