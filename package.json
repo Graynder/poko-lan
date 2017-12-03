@@ -4,8 +4,8 @@
   "description": "Jeux de poker en lan - Projet Web EI5 ISTIA",
   "main": "server/server.js",
   "scripts": {
-    "start": "build && node server/server.js",
-    "devServer": "build && nodemon -L",
+    "start": "npm run build && node server/server.js",
+    "devServer": "npm run build && nodemon -L",
     "ng": "ng",
     "watchFull": "concurrently --names \"FRONT,BACK\" \"ng serve -H 0.0.0.0 -p 3001 --poll 60000\" \"npx nodemon -L\" ",
     "build": "ng build -ec",
