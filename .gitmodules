@@ -1,0 +1,3 @@
+[submodule "poko-lan-api"]
+	path = poko-lan-api
+	url = git@github.com:Graynder/poko-lan-api.git
